@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.metadata as metadata
+import argparse
 from pathlib import Path
 import shutil
 import urllib.request
@@ -30,9 +31,9 @@ def runtime_distributions(root):
     return sorted(distributions.values(), key=lambda d: d.metadata.get("Name", "").lower())
 
 
-def package():
+def package(app_directory=None):
     root = Path(__file__).resolve().parents[1]
-    release = root / "dist" / "HopDongAI"
+    release = Path(app_directory).resolve() if app_directory else root / "dist" / "HopDongAI"
     if not (release / "HopDongAI.exe").is_file():
         raise RuntimeError("Build executable before packaging")
     shutil.copy2(root / "README.md", release / "HUONG-DAN.md")
@@ -84,4 +85,7 @@ def package():
 
 
 if __name__ == "__main__":
-    package()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--app-dir", type=Path, help="App folder to package; useful when updating a running build")
+    args = parser.parse_args()
+    package(args.app_dir)

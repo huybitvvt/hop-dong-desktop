@@ -28,7 +28,7 @@ Key được ghi nhớ bằng Windows Credential Manager; bỏ Ghi nhớ để c
 1. Mở **Mẫu hợp đồng → Tạo mẫu từ Word/PDF**, chọn mẫu trống chưa có biến hoặc hợp đồng đã điền (`.docx`/PDF, kể cả scan).
 2. Chọn **Bên A/Bên B là đối tác cần thay thông tin**. Bên còn lại đã có dữ liệu thì giữ nguyên; chỗ trống lấy từ **Cài đặt → Thông tin công ty của bạn** hoặc hỏi bổ sung.
 3. Gemini đọc tài liệu và đề xuất vùng tự điền. Word giữ định dạng chữ, bảng, đầu/chân trang khi thay dữ liệu. PDF được dựng lại thành Word chỉnh sửa được, bố cục có thể khác nguồn.
-4. Kiểm tra bảng **Nội dung / chỗ trống → Tự điền bằng**. App nhận diện dòng chấm/gạch dưới, ô bảng rỗng, đoạn rỗng sau nhãn và vị trí sau dấu hai chấm. Đổi trường hoặc bỏ dòng; chỗ bị sót thì chọn đoạn nguồn, chọn vị trí rồi **Thêm chỗ trống**. Với dữ liệu đã điền, bôi đen rồi **Thêm vùng đang bôi đen**. Giữ nhãn thông tin và tránh chọn vùng chồng nhau.
+4. Kiểm tra bảng hai cột **Chỗ sẽ điền trong hợp đồng → Thông tin lấy để điền**. Tên như **Bên A · Địa chỉ → Khách hàng · Địa chỉ** cho biết rõ vùng nào lấy dữ liệu từ đâu; phía trên ghi vai trò khách hàng/công ty của bạn. Chọn dòng để xem chỗ điền tô xanh trong đoạn gốc. Muốn chọn thêm vùng hoặc sửa nội dung nguyên văn, mở **Chỉnh chi tiết** rồi **Thêm chỗ trống** hoặc bôi đen → **Thêm vùng đang bôi đen**. Các vùng không được chồng nhau.
 5. **Mở bản gốc** và **Xem mẫu Word trước khi lưu** để đối chiếu. File xem trước chỉ dùng để xem; sửa Word xem trước không tự cập nhật bảng đề xuất.
 6. **Lưu mẫu tái sử dụng**. Mặc định là **nháp**, đầu ra có tên file/giao diện ghi bản thử. Chỉ bỏ trạng thái nháp sau khi đối chiếu đầy đủ.
 

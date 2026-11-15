@@ -150,7 +150,16 @@ def analyze_parts(parts, text_of):
                 label = re.split(r"[;\t]", label)[-1].strip()
                 date = re.search(r"\b(ngay|thang|nam)\s*$", normalize(before))
                 local_hint = {"ngay": "day", "thang": "month", "nam": "year"}[date.group(1)] if date else field_hint(label)
-                regions.append((match.start(), match.end(), "dotted", local_hint or hint, True))
+                start = match.start()
+                # A printed '20...' is one year fill area. The year value already
+                # includes its century; leaving '20' outside produces '202026'.
+                normalized_before = normalize(before)
+                year_prefix = re.search(r"\bnam\s*(?:19|20|21)\d?\s*$", normalized_before)
+                if year_prefix and (year_prefix.start() == 0 or re.search(r"\b(?:ngay|thang)\b", normalized_before[:year_prefix.start()])):
+                    prefix = re.search(r"\d{2,3}\s*$", text[:start])
+                    if prefix:
+                        start, local_hint = prefix.start(), "year"
+                regions.append((start, match.end(), "dotted", local_hint or hint, True))
             if not text.strip():
                 regions.append((0, len(text), "empty_cell" if cell is not None else "empty_paragraph", hint, empty_target))
             else:

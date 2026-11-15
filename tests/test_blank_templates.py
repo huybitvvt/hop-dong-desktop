@@ -247,3 +247,25 @@ def test_obvious_customer_and_seller_blank_roles_override_an_incorrect_ai_mappin
     corrected = add_blank_hints(draft.plan, draft.anchors, draft.slots, "Bên B")
     assert corrected.replacements[0].field == "company_name"
     build_template_bytes(draft, corrected)
+
+
+@pytest.mark.parametrize("printed", ["20...", "202...", "19_____", "20 ………"])
+def test_prefilled_century_is_replaced_with_complete_year_once(tmp_path, store, printed):
+    doc = Document()
+    doc.add_paragraph("Ngày ... tháng ... năm " + printed)
+    doc.add_paragraph("BÊN B")
+    doc.add_paragraph("Tên công ty: ...")
+    doc.add_paragraph("Nội dung công việc: ...")
+    draft = blank_draft(tmp_path / "year-prefix.docx", doc)
+    template = save_template(store, draft, draft.plan)
+    output = render_contract(template, {"day": "15", "month": "11", "year": "2026", "company_name": "Đơn vị demo", "work_description": "Công việc demo"}, tmp_path / "output", "Demo")
+    assert Document(output).paragraphs[0].text == "Ngày 15 tháng 11 năm 2026"
+    assert draft.source.read_bytes() == draft.source_data
+
+
+def test_company_name_ending_in_nam_does_not_become_a_year_blank(tmp_path):
+    doc = Document()
+    doc.add_paragraph("Tên công ty: Việt Nam 20...")
+    path = tmp_path / "company.docx"
+    doc.save(path)
+    assert not any(slot.hint == "year" for slot in blank_slots_from_word(path.read_bytes()))
